@@ -2,11 +2,9 @@
  * 綜合檢查（HTML/SEO + 水平捲動）
  * - 所有檢查項目必須通過，否則 CI fail（exit code 1）
  * - 會把結果寫進 $GITHUB_STEP_SUMMARY（Checks -> Summary）
- * - 自動在 PR 上留言顯示檢查結果
  */
 import fs from "node:fs";
 import path from "node:path";
-import { execSync } from "node:child_process";
 import * as cheerio from "cheerio";
 import { chromium } from "playwright";
 
@@ -128,13 +126,10 @@ for (const w of scrollTargets) {
 
 const finalScore = Math.round(score);
 
-// 5) 輸出（console + Step Summary + PR Comment）
+// 5) 輸出（console + Step Summary）
 output({ results, score: finalScore });
 
-// 6) 自動在 PR 留言
-await postPRComment({ results, score: finalScore });
-
-// 7) 檢查是否所有項目都通過，否則讓 CI 失敗
+// 6) 檢查是否所有項目都通過，否則讓 CI 失敗
 const allPassed = results.every(r => r.passed);
 if (!allPassed) {
   console.log('\n❌ 有檢查項目未通過，CI 失敗');
@@ -163,71 +158,5 @@ function output({ results, score, note }) {
       lines.push(`| ${r.label} | ${r.passed ? "✅" : "❌"} |`);
     }
     fs.appendFileSync(summary, lines.join("\n"));
-  }
-}
-
-async function postPRComment({ results, score, note }) {
-  // 只在 PR 事件時留言
-  const eventName = process.env.GITHUB_EVENT_NAME;
-  if (eventName !== 'pull_request' && eventName !== 'pull_request_target') {
-    console.log('ℹ️  非 PR 環境，跳過留言');
-    return;
-  }
-
-  // 從事件檔案讀取 PR 編號
-  const eventPath = process.env.GITHUB_EVENT_PATH;
-  if (!eventPath) {
-    console.log('⚠️  無法取得事件檔案路徑，跳過留言');
-    return;
-  }
-
-  let prNumber;
-  try {
-    const event = JSON.parse(fs.readFileSync(eventPath, 'utf8'));
-    prNumber = event.pull_request?.number;
-  } catch (err) {
-    console.log('⚠️  讀取事件檔案失敗:', err.message);
-    return;
-  }
-
-  if (!prNumber) {
-    console.log('⚠️  無法取得 PR 編號，跳過留言');
-    return;
-  }
-
-  // 建立留言內容
-  const lines = [];
-  lines.push('## 🎯 網站檢查結果');
-  lines.push('');
-  lines.push(`### 總分：${score}/100`);
-  if (note) lines.push(`\n> ${note}\n`);
-  lines.push('');
-  lines.push('| 規則 | 結果 |');
-  lines.push('|------|------|');
-  for (const r of results) {
-    lines.push(`| ${r.label} | ${r.passed ? '✅ 通過' : '❌ 失敗'} |`);
-  }
-  lines.push('');
-  lines.push('---');
-  lines.push('*自動檢查 by 六角學院*');
-
-  const commentBody = lines.join('\n');
-
-  // 使用 gh CLI 留言
-  try {
-    // 將留言內容寫入暫存檔案
-    const tmpFile = '/tmp/pr-comment.md';
-    fs.writeFileSync(tmpFile, commentBody);
-
-    execSync(`gh pr comment ${prNumber} --body-file ${tmpFile}`, {
-      stdio: 'inherit',
-      env: { ...process.env }
-    });
-
-    console.log(`✅ 已在 PR #${prNumber} 留言`);
-    fs.unlinkSync(tmpFile);
-  } catch (err) {
-    console.error('❌ 留言失敗:', err.message);
-    console.error('提示：請確認 GITHUB_TOKEN 權限包含 pull-requests: write');
   }
 }

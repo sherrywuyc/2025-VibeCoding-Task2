@@ -121,7 +121,6 @@ npm run check:all
 4. **輸出結果**:
    - 終端機顯示
    - GitHub Actions Summary
-   - PR 自動留言 (僅限 PR 環境)
 
 ## 常見問題 FAQ
 

@@ -221,6 +221,13 @@ p.lead {
   font-size: 13px;
   color: var(--muted);
 }
+
+.about-cta {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
 /* CSS:ABOUT-END */
 
 /* CSS:SKILLS-START */
@@ -293,7 +300,6 @@ p.lead {
 /* CSS:CONTACT-END */
 
 /* CSS:RWD-START */
-/* 手機優先；當寬度較大時改為雙欄或多欄 */
 @media (min-width: 480px) {
   .hero-title { font-size: 28px; }
 }
@@ -320,9 +326,27 @@ p.lead {
 }
 /* CSS:RWD-END */
 
-</style> </head> <body> <div class="page"> <header class="site-header"> <div class="container nav"> <div class="brand">Your Name · Frontend Dev</div> <nav aria-label="主要導覽"> <ul class="nav-list"> <li><a class="nav-link" href="#hero">首頁</a></li> <li><a class="nav-link" href="#about">關於我</a></li> <li><a class="nav-link" href="#skills">技能</a></li> <li><a class="nav-link" href="#projects">作品集</a></li> <li><a class="nav-link" href="#contact">聯絡我</a></li> </ul> </nav> </div> </header>
+</style> 
+</head> 
 
-  <main>
+<body> 
+<div class="page"> 
+<header class="site-header"> 
+  <div class="container nav"> 
+    <div class="brand">Your Name · Frontend Dev</div> 
+    <nav aria-label="主要導覽"> 
+      <ul class="nav-list"> 
+        <li><a class="nav-link" href="#hero">首頁</a></li> 
+        <li><a class="nav-link" href="#about">關於我</a></li> 
+        <li><a class="nav-link" href="#skills">技能</a></li> 
+        <li><a class="nav-link" href="#projects">作品集</a></li> 
+        <li><a class="nav-link" href="#contact">聯絡我</a></li> 
+      </ul> 
+    </nav> 
+  </div> 
+</header>
+
+<main>
   <!-- SECTION:HERO-START -->
   <section id="hero" class="section section-hero" aria-labelledby="hero-heading">
     <div class="container">
@@ -344,7 +368,7 @@ p.lead {
         </div>
 
         <figure class="about-figure" aria-hidden="false">
-          <img class="hero-image" src="https://source.unsplash.com/800x600/?developer,laptop" alt="在筆電前撰寫程式碼的前端開發者" loading="lazy" />
+          <img class="hero-image" src="https://images.unsplash.com/photo-1580894912989-0bc892f4efd0?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="在筆電前撰寫程式碼的前端開發者" loading="lazy" />
         </figure>
       </div>
     </div>
@@ -355,20 +379,34 @@ p.lead {
   <section id="about" class="section section-about" aria-labelledby="about-heading">
     <div class="container">
       <div class="about-grid">
+        
         <div>
-          <h2 id="about-heading" class="section-title">關於我（之後會用 Section SDD 替換）</h2>
-          <p class="lead">這裡目前是 About 區的占位內容，說明將在未來被替換：會包含個人背景、職務經歷與專業摘要。</p>
-          <p class="lead">之後會用 Section SDD 的 Prompt 產生新的 section，請把新的 section 程式碼整段貼回來，完全取代這一區（放在 SECTION:ABOUT-START 與 SECTION:ABOUT-END 之間）。</p>
+          <h2 id="about-heading" class="section-title">關於我</h2>
 
-          <div class="meta-list" aria-hidden="true">
-            <div class="meta-item">所在地：台灣</div>
-            <div class="meta-item">工作性質：遠端 / 在地皆可</div>
+          <p class="lead">
+            我是一名專注於前端開發、教學與技術協作的工程師，擅長將設計轉換為穩定、易維護且高效能的網頁介面。主要技能包含 HTML/CSS、RWD、互動介面切版、設計系統與前端最佳化。
+          </p>
+
+          <p class="lead">
+            我的背景來自多領域合作與教育內容製作，做事風格重視溝通、條理清楚，也樂於把複雜概念講到任何人都聽得懂。喜歡協作、喜歡教學，也喜歡把事情整理得很乾淨。
+          </p>
+
+          <ul class="meta-list">
+            <li class="meta-item">可協助整理前端架構</li>
+            <li class="meta-item">能快速協作完成 UI/UX 落地</li>
+            <li class="meta-item">具備教學與技術內容編寫能力</li>
+          </ul>
+
+          <div class="about-cta">
+            <a class="btn" href="#projects">查看作品集</a>
+            <a class="btn btn-ghost" href="#contact">聯絡我</a>
           </div>
         </div>
 
         <aside>
-          <img src="https://unsplash.com/640x480/?office,workspace" alt="整潔的工作空間與筆電" loading="lazy" />
+          <img src="https://images.unsplash.com/photo-1518770660439-4636190af475" alt="正在撰寫程式碼的工程師示意照片" loading="lazy" />
         </aside>
+
       </div>
     </div>
   </section>
